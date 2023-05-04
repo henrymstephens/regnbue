@@ -8,7 +8,7 @@
       body {
         margin: 0;
         overflow: hidden;
-        font-family: "Courier New";
+        font-family: "Courier New", monospace;
       }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
@@ -17,6 +17,7 @@
     <script>
       let hueValue, scrollCount;
       let textPhases;
+      let touchStartY;
 
       function setup() {
         createCanvas(windowWidth, windowHeight);
@@ -26,6 +27,7 @@
         textSize(24);
         hueValue = random(360);
         scrollCount = 0;
+        touchStartY = 0;
         textPhases = [
           { threshold: 150, text: "did you know" },
           { threshold: 300, text: "that the average person" },
@@ -54,6 +56,20 @@
 
       function mouseWheel(event) {
         let delta = event.delta;
+        changeColorAndScrollCount(delta);
+      }
+
+      function touchStarted() {
+        touchStartY = mouseY;
+      }
+
+      function touchMoved() {
+        let delta = touchStartY - mouseY;
+        changeColorAndScrollCount(delta);
+        touchStartY = mouseY;
+      }
+
+      function changeColorAndScrollCount(delta) {
         hueValue += delta > 0 ? 0.5 : -0.5;
         hueValue = (hueValue + 360) % 360;
         scrollCount += delta > 0 ? 1 : -1;
