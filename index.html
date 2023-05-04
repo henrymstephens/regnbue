@@ -10,6 +10,9 @@
         overflow: hidden;
         font-family: "Courier New", monospace;
       }
+      canvas {
+        display: block;
+      }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
   </head>
@@ -51,7 +54,7 @@
             let fade = min(0.2, (scrollCount - textPhases[i].threshold) / 50);
             let textColor = color(0, 0, 100, fade);
             fill(textColor);
-            text(textPhases[i].text, width / 2, textBlockY + i * 30 - (textPhases.length * 15));
+            text(textPhases[i].text, width / 2, textBlockY + i * 30);
           }
         }
       }
