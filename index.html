@@ -1,30 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Color Scroll</title>
-    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime&display=swap" rel="stylesheet">
     <style>
-      body {
-        margin: 0;
-        overflow: hidden;
-        font-family: "Courier New", "Courier Prime", monospace;
-      }
-      canvas {
-        display: block;
-      }
+        body {
+            margin: 0;
+            overflow: hidden;
+            font-family: "Courier New", monospace;
+        }
+        canvas {
+            display: block;
+        }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
-  </head>
-  <body>
-    <script>
-      let hueValue, scrollCount;
-      let textPhases;
-      let touchStartY;
+</head>
+<body>
+<script>
+    let hueValue, scrollCount;
+    let textPhases;
+    let touchStartY;
 
-      function setup() {
+    function setup() {
         createCanvas(windowWidth, windowHeight);
+        initialize();
+    }
+
+    function draw() {
+        setBackground();
+        drawText();
+    }
+
+    function windowResized() {
+        resizeCanvas(windowWidth, windowHeight);
+    }
+
+    function initialize() {
         noCursor();
         colorMode(HSB, 360, 100, 100, 1);
         textAlign(CENTER, CENTER);
@@ -33,61 +45,56 @@
         scrollCount = 0;
         touchStartY = 0;
         textPhases = [
-          { threshold: 150, text: "did you know" },
-          { threshold: 300, text: "that the average person" },
-          { threshold: 450, text: "scrolls 914m a day" },
-          { threshold: 600, text: "that's 6.4km a week" },
-          { threshold: 750, text: "330km a year" },
-          { threshold: 900, text: "over 53,000km"},
-          { threshold: 1050, text: "since the iphone was released"},
-          { threshold: 1300, text: "on June 29, 2007"},
+            { threshold: 150, text: "did you know" },
+            { threshold: 300, text: "that the average person" },
+            { threshold: 450, text: "scrolls 914m a day" },
+            { threshold: 600, text: "that's 6.4km a week" },
+            { threshold: 750, text: "330km a year" },
+            { threshold: 900, text: "over 53,000km"},
+            { threshold: 1050, text: "since the iphone was released"},
+            { threshold: 1300, text: "on June 29, 2007"},
         ];
-      }
+    }
 
-      function draw() {
+    function setBackground() {
         let currentColor = color(hueValue, 60, 90);
         background(currentColor);
+    }
 
-        let totalTextHeight = textPhases.length * 30;
-        let currentScrollRatio = min(1, scrollCount / textPhases[textPhases.length - 1].threshold);
-        let textBlockY = (height - totalTextHeight) / 2 * currentScrollRatio;
-
+    function drawText() {
+        let textBlockY = height / 2 - (textPhases.length * 30) / 2;
         for (let i = 0; i < textPhases.length; i++) {
-          if (scrollCount >= textPhases[i].threshold) {
-            let fade = min(0.2, (scrollCount - textPhases[i].threshold) / 50);
-            let textColor = color(0, 0, 100, fade);
-            fill(textColor);
-            text(textPhases[i].text, width / 2, textBlockY + i * 30);
-          }
+            if (scrollCount >= textPhases[i].threshold) {
+                let fade = min(0.2, (scrollCount - textPhases[i].threshold) / 50);
+                let textColor = color(0, 0, 100, fade);
+                fill(textColor);
+                text(textPhases[i].text, width / 2, textBlockY + i * 30);
+            }
         }
-      }
+    }
 
-      function mouseWheel(event) {
+    function mouseWheel(event) {
         let delta = event.delta;
         changeColorAndScrollCount(delta);
-      }
+    }
 
-      function touchStarted() {
+    function touchStarted() {
         touchStartY = mouseY;
-      }
+    }
 
-      function touchMoved() {
+    function touchMoved() {
         let delta = touchStartY - mouseY;
         changeColorAndScrollCount(delta);
         touchStartY = mouseY;
-      }
+    }
 
-      function changeColorAndScrollCount(delta) {
+    function changeColorAndScrollCount(delta) {
         hueValue += delta > 0 ? 0.5 : -0.5;
         hueValue = (hueValue + 360) % 360;
         scrollCount += delta > 0 ? 1 : -1;
         scrollCount = max(scrollCount, 0);
-      }
-
-      function windowResized() {
-        resizeCanvas(windowWidth, windowHeight);
-      }
-    </script>
-  </body>
+    }
+</script>
+</body>
 </html>
-
+``
