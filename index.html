@@ -34,9 +34,8 @@
           { threshold: 450, text: "scrolls 914m a day" },
           { threshold: 600, text: "that's 6.4km a week" },
           { threshold: 750, text: "330km a year" },
-          { threshold: 900, text: "over 53,000km since the iphone was released in 2007"},
-          { threshold: 1050, text: "couldn't you be doing something better"},
-          { threshold: 1300, text: "with all that time?"},
+          { threshold: 900, text: "couldn't you be doing something better"},
+          { threshold: 1050, text: "with all that time?"},
         ];
       }
 
@@ -44,12 +43,14 @@
         let currentColor = color(hueValue, 60, 90);
         background(currentColor);
 
+        let textBlockY = height / 2 - (textPhases.length * 30) / 2;
+
         for (let i = 0; i < textPhases.length; i++) {
           if (scrollCount >= textPhases[i].threshold) {
             let fade = min(0.2, (scrollCount - textPhases[i].threshold) / 50);
             let textColor = color(0, 0, 100, fade);
             fill(textColor);
-            text(textPhases[i].text, width / 2, height / 2 + i * 30);
+            text(textPhases[i].text, width / 2, textBlockY + i * 30);
           }
         }
       }
