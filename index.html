@@ -68,7 +68,7 @@
         let textBlockY = height / 2 - (textPhases.length * 30) / 2;
         for (let i = 0; i < textPhases.length; i++) {
             if (scrollCount >= textPhases[i].threshold) {
-                let fade = min(0.2, (scrollCount - textPhases[i].threshold) / 50);
+                let fade = min(0.4, (scrollCount - textPhases[i].threshold) / 50);
                 let textColor = color(0, 0, 100, fade);
                 fill(textColor);
                 text(textPhases[i].text, width / 2, textBlockY + i * 30);
